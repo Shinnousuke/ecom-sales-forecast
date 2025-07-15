@@ -8,6 +8,7 @@ An interactive, no-code web application to forecast future sales using historica
 
 
 🔍 Explore the Web App: https://ecom-sales-forecast.streamlit.app/
+
 💻 View the Code on GitHub: https://github.com/Shinnousuke/ecom-sales-forecast
 
 
