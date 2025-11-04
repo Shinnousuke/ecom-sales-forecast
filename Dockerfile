@@ -1,31 +1,42 @@
-# Use official Python image
+# ==============================================
+# 📦 Streamlit Sales Forecasting App - Dockerfile
+# Works perfectly with Google Cloud Run (GCP)
+# ==============================================
+
+# 1️⃣ Base Image
 FROM python:3.10-slim
 
-# Prevent Python from writing pyc files and buffering stdout/stderr
+# 2️⃣ Environment Settings
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV PORT=8080
 
-# Set working directory
+# 3️⃣ Set Working Directory
 WORKDIR /app
 
-# Copy all project files into the container
+# 4️⃣ Copy all files into the container
 COPY . /app
 
-# Install system dependencies (for statsmodels, numpy, matplotlib, etc.)
+# 5️⃣ Install required system dependencies (for numpy, statsmodels, etc.)
 RUN apt-get update && apt-get install -y \
     build-essential \
-    libatlas-base-dev \
     gfortran \
+    liblapack-dev \
+    libblas-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python dependencies
-RUN pip install --no-cache-dir streamlit pandas numpy matplotlib statsmodels scikit-learn
+# 6️⃣ Install Python dependencies
+RUN pip install --no-cache-dir \
+    streamlit \
+    pandas \
+    numpy \
+    matplotlib \
+    statsmodels \
+    scikit-learn
 
-# Expose port for Cloud Run
+# 7️⃣ Expose the port that Cloud Run uses
 EXPOSE 8080
 
-# Set environment variable for Streamlit
-ENV PORT 8080
-
-# Run the Streamlit app
+# 8️⃣ Command to run your Streamlit app
+# (Replace app.py if your main file has a different name)
 CMD ["streamlit", "run", "app.py", "--server.port=8080", "--server.enableCORS=false"]
